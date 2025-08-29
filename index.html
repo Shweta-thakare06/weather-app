@@ -80,7 +80,8 @@
       }
 
       // api url ( key already given)
-      let url = `http://api.weatherapi.com/v1/current.json?key=daacc97944d442ef95592943252908&q=${location}&aqi=yes`;
+    let url = `https://api.weatherapi.com/v1/current.json?key=daacc97944d442ef95592943252908&q=${location}&aqi=yes`;
+
 
       try {
         let response = await fetch(url);
