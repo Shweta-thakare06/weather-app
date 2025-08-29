@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weather App</title>
+  <style>
+    /* background black + white feel */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to right, #000000, #434343);
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .weather-box {
+      background: rgba(255, 255, 255, 0.1); /* transparent */
+      padding: 20px;
+      border-radius: 15px;
+      text-align: center;
+      width: 300px;
+      box-shadow: 0px 4px 10px rgba(0,0,0,0.5);
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      font-size: 22px;
+    }
+
+    input {
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+      width: 80%;
+      margin-bottom: 10px;
+    }
+
+    button {
+      padding: 10px 15px;
+      border: none;
+      border-radius: 8px;
+      background: #ffffff;
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #ddd;
+    }
+
+    .result {
+      margin-top: 20px;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="weather-box">
+    <h2>Weather App</h2>
+    <input type="text" id="locationInput" placeholder="Enter city name">
+    <br>
+    <button onclick="getWeather()">Check Weather</button>
+    <div class="result" id="result"></div>
+  </div>
+
+  <script>
+    // function to call weather api
+    async function getWeather() {
+      let location = document.getElementById("locationInput").value;
+      if(location === ""){
+        alert("Please enter a city name");
+        return;
+      }
+
+      // api url ( key already given)
+      let url = `http://api.weatherapi.com/v1/current.json?key=daacc97944d442ef95592943252908&q=${location}&aqi=yes`;
+
+      try {
+        let response = await fetch(url);
+        let data = await response.json();
+
+        // show result
+        let temp = data.current.temp_c;
+        let condition = data.current.condition.text;
+        document.getElementById("result").innerHTML =
+          `<p><b>${data.location.name}</b>, ${data.location.country}</p>
+           <p>Temperature: ${temp}°C</p>
+           <p>Condition: ${condition}</p>`;
+      } 
+      catch (error) {
+        document.getElementById("result").innerHTML = "City not found, try again!";
+      }
+    }
+  </script>
+
+</body>
+</html>
